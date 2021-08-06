@@ -1,5 +1,7 @@
 class ExercisesController < ApplicationController
   before_action :set_exercise, only: [:show, :update, :destroy]
+  respond_to :json
+  wrap_parameters include: [:name, :weight]
 
   # GET /exercises
   def index
@@ -46,6 +48,6 @@ class ExercisesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def exercise_params
-      params.require(:exercise).permit(:name, :weight)
+      params.require(:exercise).permit!
     end
 end

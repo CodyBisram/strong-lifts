@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_04_031441) do
+ActiveRecord::Schema.define(version: 2021_08_05_082506) do
 
   create_table "exercises", force: :cascade do |t|
     t.string "name"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2021_08_04_031441) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "date"
+    t.string "workout_type"
   end
 
   add_foreign_key "exercises", "workouts"

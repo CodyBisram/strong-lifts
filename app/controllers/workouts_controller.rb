@@ -1,6 +1,11 @@
 class WorkoutsController < ApplicationController
   before_action :set_workout, only: [:show, :update, :destroy]
 
+  # def new
+  #   @workout = Workout.new
+  #   3.times {@workout.exercises.build}
+  # end
+
   # GET /workouts
   def index
     @workouts = Workout.all
@@ -15,7 +20,12 @@ class WorkoutsController < ApplicationController
 
   # POST /workouts
   def create
-    @workout = Workout.new(workout_params)
+    puts "WORKOUT PARAMS:"
+    puts(workout_params[:exercises][0]["name"])
+    @workout = Workout.new(date: workout_params["date"], workout_type: workout_params["workout_type"])
+    @workout.exercises.build(name: workout_params[:exercises][0]["name"], weight: workout_params[:exercises][0]["weight"])
+    @workout.exercises.build(name: workout_params[:exercises][1]["name"], weight: workout_params[:exercises][1]["weight"])
+    @workout.exercises.build(name: workout_params[:exercises][2]["name"], weight: workout_params[:exercises][2]["weight"])
 
     if @workout.save
       render json: @workout, status: :created, location: @workout
@@ -26,6 +36,11 @@ class WorkoutsController < ApplicationController
 
   # PATCH/PUT /workouts/1
   def update
+
+    params.exercises.each do |exercise|
+      @workout.exercises.build(exercise)
+    end
+
     if @workout.update(workout_params)
       render json: @workout
     else
@@ -46,6 +61,6 @@ class WorkoutsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def workout_params
-      params.require(:workout).permit(:date)
+      params.require(:workout).permit!
     end
 end
